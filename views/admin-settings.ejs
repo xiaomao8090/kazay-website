@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>网站设置 - Kazay Studio 管理后台</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/admin.css">
+  <style>
+    .settings-section {
+      background-color: #fff;
+      border-radius: 5px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .settings-section h3 {
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    .form-check {
+      margin-bottom: 10px;
+    }
+    .alert {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <!-- 侧边栏 -->
+    <div class="sidebar">
+      <div class="logo">
+        <img src="/images/logo.png" alt="Kazay Studio Logo">
+        <h2>管理后台</h2>
+      </div>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/dashboard">
+            <i class="bi bi-speedometer2"></i> 控制台
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/pages">
+            <i class="bi bi-file-earmark-text"></i> 页面管理
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/messages">
+            <i class="bi bi-chat-dots"></i> 留言管理
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/logs">
+            <i class="bi bi-journal-text"></i> 网站日志
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/admin/settings">
+            <i class="bi bi-gear"></i> 网站设置
+          </a>
+        </li>
+        <li class="nav-item mt-auto">
+          <a class="nav-link" href="/admin/logout">
+            <i class="bi bi-box-arrow-right"></i> 退出登录
+          </a>
+        </li>
+      </ul>
+    </div>
+    
+    <!-- 主内容 -->
+    <div class="main-content">
+      <header class="d-flex justify-content-between align-items-center mb-4">
+        <h1>网站设置</h1>
+        <div class="user-info">
+          <span>欢迎，<%= username %></span>
+        </div>
+      </header>
+      
+      <!-- 成功提示 -->
+      <div class="alert alert-success" id="successAlert" role="alert">
+        设置已成功保存！
+      </div>
+      
+      <!-- 错误提示 -->
+      <div class="alert alert-danger" id="errorAlert" role="alert">
+        保存设置时出错，请稍后再试。
+      </div>
+      
+      <!-- 基本设置 -->
+      <div class="settings-section">
+        <h3>基本设置</h3>
+        <form id="basicSettingsForm">
+          <div class="mb-3">
+            <label for="siteName" class="form-label">网站名称</label>
+            <input type="text" class="form-control" id="siteName" name="siteName" value="<%= settings.siteName || 'Kazay Studio' %>">
+          </div>
+          <div class="mb-3">
+            <label for="siteDescription" class="form-label">网站描述</label>
+            <textarea class="form-control" id="siteDescription" name="siteDescription" rows="3"><%= settings.siteDescription || '' %></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="contactEmail" class="form-label">联系邮箱</label>
+            <input type="email" class="form-control" id="contactEmail" name="contactEmail" value="<%= settings.contactEmail || '' %>">
+          </div>
+          <div class="mb-3">
+            <label for="contactPhone" class="form-label">联系电话</label>
+            <input type="text" class="form-control" id="contactPhone" name="contactPhone" value="<%= settings.contactPhone || '' %>">
+          </div>
+          <button type="submit" class="btn btn-primary">保存基本设置</button>
+        </form>
+      </div>
+      
+      <!-- 安全设置 -->
+      <div class="settings-section">
+        <h3>安全设置</h3>
+        <form id="securitySettingsForm">
+          <div class="mb-3">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="enableSecurityCheck" name="enableSecurityCheck" <%= settings.enableSecurityCheck ? 'checked' : '' %>>
+              <label class="form-check-label" for="enableSecurityCheck">启用安全检查</label>
+            </div>
+            <small class="form-text text-muted">启用后，系统将检查登录IP和浏览器是否匹配</small>
+          </div>
+          <div class="mb-3">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="enableLoginNotification" name="enableLoginNotification" <%= settings.enableLoginNotification ? 'checked' : '' %>>
+              <label class="form-check-label" for="enableLoginNotification">启用登录通知</label>
+            </div>
+            <small class="form-text text-muted">启用后，系统将在管理员登录时发送通知邮件</small>
+          </div>
+          <div class="mb-3">
+            <label for="maxLoginAttempts" class="form-label">最大登录尝试次数</label>
+            <input type="number" class="form-control" id="maxLoginAttempts" name="maxLoginAttempts" value="<%= settings.maxLoginAttempts || 5 %>" min="1" max="10">
+            <small class="form-text text-muted">超过此次数将触发安全警报</small>
+          </div>
+          <div class="mb-3">
+            <label for="sessionTimeout" class="form-label">会话超时时间（分钟）</label>
+            <input type="number" class="form-control" id="sessionTimeout" name="sessionTimeout" value="<%= settings.sessionTimeout || 30 %>" min="5" max="120">
+          </div>
+          <button type="submit" class="btn btn-primary">保存安全设置</button>
+        </form>
+      </div>
+      
+      <!-- 日志设置 -->
+      <div class="settings-section">
+        <h3>日志设置</h3>
+        <form id="logSettingsForm">
+          <div class="mb-3">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="enableNormalLog" name="enableNormalLog" <%= settings.enableNormalLog ? 'checked' : '' %>>
+              <label class="form-check-label" for="enableNormalLog">启用普通日志</label>
+            </div>
+            <small class="form-text text-muted">记录基本操作和访问信息</small>
+          </div>
+          <div class="mb-3">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="enableAdvancedLog" name="enableAdvancedLog" <%= settings.enableAdvancedLog ? 'checked' : '' %>>
+              <label class="form-check-label" for="enableAdvancedLog">启用高级日志</label>
+            </div>
+            <small class="form-text text-muted">记录详细的系统信息和调试数据</small>
+          </div>
+          <div class="mb-3">
+            <label for="logLevel" class="form-label">日志级别</label>
+            <select class="form-select" id="logLevel" name="logLevel">
+              <option value="error" <%= settings.logLevel === 'error' ? 'selected' : '' %>>仅错误</option>
+              <option value="warning" <%= settings.logLevel === 'warning' ? 'selected' : '' %>>警告及以上</option>
+              <option value="info" <%= settings.logLevel === 'info' ? 'selected' : '' %>>信息及以上</option>
+              <option value="debug" <%= settings.logLevel === 'debug' ? 'selected' : '' %>>调试（全部）</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="logRetention" class="form-label">日志保留时间（天）</label>
+            <input type="number" class="form-control" id="logRetention" name="logRetention" value="<%= settings.logRetention || 30 %>" min="1" max="365">
+          </div>
+          <div class="mb-3">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="enableLogRotation" name="enableLogRotation" <%= settings.enableLogRotation ? 'checked' : '' %>>
+              <label class="form-check-label" for="enableLogRotation">启用日志轮换</label>
+            </div>
+            <small class="form-text text-muted">自动归档旧日志文件</small>
+          </div>
+          <div class="mb-3">
+            <label for="logFormat" class="form-label">日志格式</label>
+            <select class="form-select" id="logFormat" name="logFormat">
+              <option value="simple" <%= settings.logFormat === 'simple' ? 'selected' : '' %>>简单格式</option>
+              <option value="detailed" <%= settings.logFormat === 'detailed' ? 'selected' : '' %>>详细格式</option>
+              <option value="json" <%= settings.logFormat === 'json' ? 'selected' : '' %>>JSON格式</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">保存日志设置</button>
+        </form>
+      </div>
+      
+      <!-- 邮件设置 -->
+      <div class="settings-section">
+        <h3>邮件设置</h3>
+        <form id="emailSettingsForm">
+          <div class="mb-3">
+            <label for="smtpServer" class="form-label">SMTP服务器</label>
+            <input type="text" class="form-control" id="smtpServer" name="smtpServer" value="<%= settings.smtpServer || '' %>">
+          </div>
+          <div class="mb-3">
+            <label for="smtpPort" class="form-label">SMTP端口</label>
+            <input type="number" class="form-control" id="smtpPort" name="smtpPort" value="<%= settings.smtpPort || 465 %>">
+          </div>
+          <div class="mb-3">
+            <label for="smtpUser" class="form-label">SMTP用户名</label>
+            <input type="text" class="form-control" id="smtpUser" name="smtpUser" value="<%= settings.smtpUser || '' %>">
+          </div>
+          <div class="mb-3">
+            <label for="smtpPassword" class="form-label">SMTP密码</label>
+            <input type="password" class="form-control" id="smtpPassword" name="smtpPassword" value="<%= settings.smtpPassword ? '********' : '' %>">
+            <small class="form-text text-muted">如不修改密码，请保留为空</small>
+          </div>
+          <div class="mb-3">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="smtpSecure" name="smtpSecure" <%= settings.smtpSecure ? 'checked' : '' %>>
+              <label class="form-check-label" for="smtpSecure">使用SSL/TLS</label>
+            </div>
+          </div>
+          <div class="mb-3">
+            <button type="button" class="btn btn-outline-secondary" id="testEmailButton">测试邮件设置</button>
+          </div>
+          <button type="submit" class="btn btn-primary">保存邮件设置</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 测试邮件模态框 -->
+  <div class="modal fade" id="testEmailModal" tabindex="-1" aria-labelledby="testEmailModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="testEmailModalLabel">测试邮件设置</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="testEmailAddress" class="form-label">测试邮件接收地址</label>
+            <input type="email" class="form-control" id="testEmailAddress" placeholder="请输入接收测试邮件的邮箱地址">
+          </div>
+          <div id="testEmailStatus"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" id="sendTestEmail">发送测试邮件</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/jquery-3.6.0.min.js"></script>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // 基本设置表单提交
+      $('#basicSettingsForm').submit(function(e) {
+        e.preventDefault();
+        
+        const formData = {
+          siteName: $('#siteName').val(),
+          siteDescription: $('#siteDescription').val(),
+          contactEmail: $('#contactEmail').val(),
+          contactPhone: $('#contactPhone').val()
+        };
+        
+        saveSettings('basic', formData);
+      });
+      
+      // 安全设置表单提交
+      $('#securitySettingsForm').submit(function(e) {
+        e.preventDefault();
+        
+        const formData = {
+          enableSecurityCheck: $('#enableSecurityCheck').is(':checked'),
+          enableLoginNotification: $('#enableLoginNotification').is(':checked'),
+          maxLoginAttempts: $('#maxLoginAttempts').val(),
+          sessionTimeout: $('#sessionTimeout').val()
+        };
+        
+        saveSettings('security', formData);
+      });
+      
+      // 日志设置表单提交
+      $('#logSettingsForm').submit(function(e) {
+        e.preventDefault();
+        
+        const formData = {
+          enableNormalLog: $('#enableNormalLog').is(':checked'),
+          enableAdvancedLog: $('#enableAdvancedLog').is(':checked'),
+          logLevel: $('#logLevel').val(),
+          logRetention: $('#logRetention').val(),
+          enableLogRotation: $('#enableLogRotation').is(':checked'),
+          logFormat: $('#logFormat').val()
+        };
+        
+        saveSettings('log', formData);
+      });
+      
+      // 邮件设置表单提交
+      $('#emailSettingsForm').submit(function(e) {
+        e.preventDefault();
+        
+        const formData = {
+          smtpServer: $('#smtpServer').val(),
+          smtpPort: $('#smtpPort').val(),
+          smtpUser: $('#smtpUser').val(),
+          smtpSecure: $('#smtpSecure').is(':checked')
+        };
+        
+        // 只有在修改密码时才发送密码
+        const password = $('#smtpPassword').val();
+        if (password && password !== '********') {
+          formData.smtpPassword = password;
+        }
+        
+        saveSettings('email', formData);
+      });
+      
+      // 测试邮件设置
+      $('#testEmailButton').click(function() {
+        $('#testEmailModal').modal('show');
+      });
+      
+      $('#sendTestEmail').click(function() {
+        const email = $('#testEmailAddress').val();
+        if (!email) {
+          $('#testEmailStatus').html('<div class="alert alert-danger">请输入接收测试邮件的邮箱地址</div>');
+          return;
+        }
+        
+        $('#testEmailStatus').html('<div class="alert alert-info">正在发送测试邮件...</div>');
+        $('#sendTestEmail').prop('disabled', true);
+        
+        // 获取当前表单中的邮件设置
+        const emailSettings = {
+          smtpServer: $('#smtpServer').val(),
+          smtpPort: $('#smtpPort').val(),
+          smtpUser: $('#smtpUser').val(),
+          smtpSecure: $('#smtpSecure').is(':checked')
+        };
+        
+        // 只有在修改密码时才发送密码
+        const password = $('#smtpPassword').val();
+        if (password && password !== '********') {
+          emailSettings.smtpPassword = password;
+        }
+        
+        $.ajax({
+          url: '/admin/api/settings/test-email',
+          method: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            email,
+            settings: emailSettings
+          }),
+          success: function(response) {
+            if (response.success) {
+              $('#testEmailStatus').html('<div class="alert alert-success">测试邮件已成功发送！</div>');
+            } else {
+              $('#testEmailStatus').html('<div class="alert alert-danger">发送测试邮件失败: ' + response.message + '</div>');
+            }
+            $('#sendTestEmail').prop('disabled', false);
+          },
+          error: function() {
+            $('#testEmailStatus').html('<div class="alert alert-danger">发送测试邮件请求失败</div>');
+            $('#sendTestEmail').prop('disabled', false);
+          }
+        });
+      });
+      
+      // 保存设置的通用函数
+      function saveSettings(type, data) {
+        $.ajax({
+          url: '/admin/api/settings/' + type,
+          method: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(data),
+          success: function(response) {
+            if (response.success) {
+              $('#successAlert').fadeIn().delay(3000).fadeOut();
+            } else {
+              $('#errorAlert').text('保存设置失败: ' + response.message).fadeIn().delay(3000).fadeOut();
+            }
+          },
+          error: function() {
+            $('#errorAlert').text('保存设置请求失败').fadeIn().delay(3000).fadeOut();
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html> 

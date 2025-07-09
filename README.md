@@ -1,88 +1,129 @@
-# KAZAY工作室官网
+# Kazay Studio 官方网站
 
-这是KAZAY工作室的官方网站项目，使用Node.js和Express框架开发，具有红黑配色和星空背景设计。
+Kazay Studio的官方网站，包含公司介绍、服务内容、联系方式等信息，以及一个安全的管理后台。
 
-## 项目特点
+## 功能特点
 
 - 响应式设计，适配各种设备
-- 红黑主题配色
-- 动态星空背景效果
-- 模块化的代码结构
-- 简洁现代的UI设计
-
-## 页面结构
-
-- 首页：展示工作室概览和特色项目
-- 关于我们：介绍工作室团队、历史和使命
-- 服务内容：详细展示提供的服务和价格方案
-- 联系我们：提供联系表单和联系方式
+- 现代化UI界面
+- 安全的管理后台，支持双重验证
+- 页面管理功能
+- 留言管理功能
+- 网站设置功能
 
 ## 技术栈
 
 - Node.js
 - Express.js
-- EJS 模板引擎
-- 原生JavaScript
-- CSS3动画效果
+- EJS模板引擎
+- Nodemailer (邮件发送)
+- Express Session (会话管理)
+- PM2 (进程管理)
 
-## 安装说明
+## 开发环境设置
 
-1. 克隆仓库到本地
-   ```
-   git clone <仓库URL>
+### 前提条件
+
+- Node.js (>=14.0.0)
+- npm (>=6.0.0)
+
+### 安装步骤
+
+1. 克隆仓库
+
+```bash
+git clone <repository-url>
    cd kazay-website
    ```
 
 2. 安装依赖
-   ```
+
+```bash
    npm install
    ```
 
-3. 启动服务器
-   ```
-   npm start
-   ```
-   或者使用开发模式（自动重启）：
-   ```
+3. 创建环境变量文件
+
+创建一个 `.env` 文件在项目根目录，包含以下内容：
+
+```
+# 环境设置
+NODE_ENV=development
+
+# 服务器配置
+PORT=3001
+
+# 邮箱配置 (可选，开发环境会模拟发送)
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-app-password
+
+# 管理员配置
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=admin123
+
+# 验证码接收邮箱
+VERIFICATION_EMAIL=xiaomao8090@gmail.com
+```
+
+4. 启动开发服务器
+
+```bash
    npm run dev
    ```
 
-4. 在浏览器中访问：`http://localhost:3000`
+应用将在 http://localhost:3001 运行。
 
-## 文件结构
+## 管理后台
+
+管理后台提供以下功能：
+
+- 安全登录，支持双重验证
+- 网站访问统计
+- 页面管理
+- 留言管理
+- 网站设置
+
+### 访问管理后台
+
+1. 访问 http://localhost:3001/admin
+2. 输入用户名和密码
+3. 输入发送到指定邮箱的6位验证码
+
+## 部署指南
+
+详细的部署步骤请参考 [DEPLOYMENT.md](DEPLOYMENT.md) 文件。
+
+## 目录结构
 
 ```
 kazay-website/
-├── app.js                 # 应用入口文件
-├── package.json           # 项目依赖
-├── public/                # 静态资源
-│   ├── css/               # 样式文件
-│   ├── js/                # JavaScript文件
-│   └── images/            # 图片资源
-└── views/                 # EJS模板
-    ├── layout.ejs         # 布局模板
-    ├── index.ejs          # 首页
-    ├── about.ejs          # 关于我们
-    ├── services.ejs       # 服务内容
-    └── contact.ejs        # 联系我们
+├── public/             # 静态文件
+│   ├── css/            # 样式表
+│   ├── js/             # 客户端脚本
+│   └── images/         # 图片资源
+├── utils/              # 工具函数
+│   ├── authUtils.js    # 认证相关工具
+│   └── sessionManager.js # 会话管理工具
+├── views/              # EJS模板
+│   ├── index.ejs       # 首页
+│   ├── about.ejs       # 关于我们
+│   ├── services.ejs    # 服务内容
+│   ├── contact.ejs     # 联系我们
+│   ├── admin-login.ejs # 管理员登录
+│   └── ...             # 其他模板
+├── app.js              # 应用入口
+├── ecosystem.config.js # PM2配置
+├── package.json        # 项目依赖
+└── README.md           # 项目说明
 ```
 
-## 注意事项
+## 安全注意事项
 
-- 项目中的图片资源需要自行准备，包括星空背景、团队照片、项目展示图等
-- 联系表单需要在app.js中添加处理逻辑才能正常工作
-- 可以根据实际需求调整配色、内容和功能
+- 生产环境中请使用强密码
+- 确保 `.env` 文件不被提交到版本控制系统
+- 定期更新依赖包
+- 使用HTTPS协议提供服务
 
-## 自定义
+## 许可证
 
-- 主要颜色变量在`public/css/style.css`中的`:root`部分定义，可以根据需要修改
-- 页面内容可以在相应的EJS文件中编辑
-- 星空背景效果可以通过替换`public/images/stars1.png`等图片文件来自定义，或者使用JavaScript自动生成的效果
-
-## 贡献
-
-欢迎提交问题或改进建议。
-
-## 许可
-
-[您的许可证] 
+ISC 

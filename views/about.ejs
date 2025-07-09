@@ -12,12 +12,15 @@
         <div class="about-content">
             <div class="about-text">
                 <h2>我们是谁</h2>
-                <p>KAZAY工作室成立于2020年，是一家充满创造力和专业精神的创意团队。我们专注于提供高品质的设计和技术服务，帮助客户实现他们的创意愿景。</p>
+                <p>KAZAY工作室成立于2024年，是一家充满创造力和专业精神的创意团队。我们专注于提供高品质的设计和技术服务，帮助客户实现他们的创意愿景。</p>
                 <p>我们相信，优秀的创意源于对细节的专注和对卓越的追求。无论是品牌设计、网站开发还是用户体验设计，我们都致力于为每一位客户提供超出预期的解决方案。</p>
                 <p>多年来，我们已成功为多个行业的客户提供服务，包括科技、教育、金融、零售等领域，帮助他们在数字世界中脱颖而出。</p>
+                <p class="update-time">最后更新时间：<span id="updateTime"></span></p>
             </div>
             <div class="about-image">
-                <img src="/images/about-us.jpg" alt="KAZAY工作室团队">
+                <div class="team-icon">
+                    <i class="fas fa-users fa-4x"></i>
+                </div>
             </div>
         </div>
     </div>
@@ -60,49 +63,68 @@
         <div class="team-grid">
             <div class="team-member">
                 <div class="member-image">
-                    <img src="/images/team1.jpg" alt="团队成员1">
-                </div>
-                <div class="member-info">
-                    <h3>张伟</h3>
-                    <span>创意总监</span>
-                    <p>拥有10年以上设计经验，曾服务于多家知名品牌，擅长品牌策略和视觉设计。</p>
-                    <div class="member-social">
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-behance"></i></a>
+                    <div class="member-avatar">
+                        <i class="fas fa-user-circle"></i>
                     </div>
                 </div>
-            </div>
-            <div class="team-member">
-                <div class="member-image">
-                    <img src="/images/team2.jpg" alt="团队成员2">
-                </div>
                 <div class="member-info">
-                    <h3>李明</h3>
-                    <span>技术总监</span>
-                    <p>资深全栈开发者，精通多种编程语言和框架，负责项目的技术实现和质量把控。</p>
+                    <h3>叶力</h3>
+                    <span>开发工程师</span>
+                    <p>资深全栈开发者，专注于后端架构和核心功能开发，拥有丰富的项目经验和技术积累</p>
                     <div class="member-social">
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
                         <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
                     </div>
                 </div>
             </div>
             <div class="team-member">
                 <div class="member-image">
-                    <img src="/images/team3.jpg" alt="团队成员3">
+                    <div class="member-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
                 </div>
                 <div class="member-info">
-                    <h3>王芳</h3>
-                    <span>用户体验设计师</span>
-                    <p>专注于用户体验和交互设计，致力于创造简洁、高效且令人愉悦的用户界面。</p>
+                    <h3>特列克</h3>
+                    <span>开发工程师</span>
+                    <p>精通前端技术栈，负责网站和应用的界面开发与交互实现，关注用户体验和代码质量</p>
                     <div class="member-social">
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-codepen"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="member-image">
+                    <div class="member-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3>阿热斯</h3>
+                    <span>UI/UX 设计师</span>
+                    <p>专注于用户界面和用户体验设计，擅长创造美观且易用的界面，为产品增添视觉魅力</p>
+                    <div class="member-social">
                         <a href="#"><i class="fab fa-dribbble"></i></a>
+                        <a href="#"><i class="fab fa-behance"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
+
+<!-- 客户反馈 -->
+<section class="testimonials">
+    <div class="container">
+        <div class="section-header">
+            <h2>客户反馈</h2>
+            <p>听听他们怎么说</p>
+        </div>
+        <div class="testimonial-slider" id="random-testimonials">
+            <!-- 随机客户消息将通过JavaScript动态生成 -->
         </div>
     </div>
 </section>
@@ -118,35 +140,35 @@
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
-                    <h3>2020年</h3>
+                    <h3>2024年</h3>
                     <p>KAZAY工作室正式成立，开始提供品牌设计和网站开发服务。</p>
                 </div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content right">
-                    <h3>2021年</h3>
+                    <h3>2024年</h3>
                     <p>团队扩大，增加了移动应用开发和用户体验设计服务。</p>
                 </div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
-                    <h3>2022年</h3>
+                    <h3>2025年</h3>
                     <p>获得行业认可，荣获多个设计和技术创新奖项。</p>
                 </div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content right">
-                    <h3>2023年</h3>
+                    <h3>2025年</h3>
                     <p>客户群体扩大到全国范围，成功完成了多个大型项目。</p>
                 </div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
-                    <h3>2024年</h3>
+                    <h3>2025年</h3>
                     <p>进一步发展，不断追求创新和卓越，为更多客户提供优质服务。</p>
                 </div>
             </div>

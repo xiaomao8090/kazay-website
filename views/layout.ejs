@@ -7,29 +7,32 @@
     <link rel="stylesheet" href="/css/style.css">
     <!-- 引入字体图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 引入Google字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="stars-container">
-        <div id="stars"></div>
-        <div id="stars2"></div>
-        <div id="stars3"></div>
+        <canvas id="stars-canvas"></canvas>
+        <canvas id="meteors-canvas"></canvas>
     </div>
 
     <header>
-        <div class="container">
-            <div class="logo">
+        <div class="container header-container">
+            <a href="/" class="logo">
                 <h1>KAZAY<span>工作室</span></h1>
-            </div>
+            </a>
             <nav>
                 <ul>
-                    <li><a href="/">首页</a></li>
-                    <li><a href="/about">关于我们</a></li>
-                    <li><a href="/services">服务内容</a></li>
-                    <li><a href="/contact">联系我们</a></li>
+                    <li><a href="/" class="<%= path === '/' ? 'active' : '' %>">首页</a></li>
+                    <li><a href="/about" class="<%= path === '/about' ? 'active' : '' %>">关于我们</a></li>
+                    <li><a href="/services" class="<%= path === '/services' ? 'active' : '' %>">服务内容</a></li>
+                    <li><a href="/contact" class="<%= path === '/contact' ? 'active' : '' %>">联系我们</a></li>
                 </ul>
             </nav>
-            <div class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
     </header>
@@ -41,23 +44,34 @@
     <footer>
         <div class="container">
             <div class="footer-content">
-                <div class="footer-section about">
-                    <h2>KAZAY工作室</h2>
-                    <p>我们致力于提供高质量的创意和专业服务。</p>
-                    <div class="contact">
-                        <span><i class="fas fa-phone"></i> +86 123 4567 8901</span>
-                        <span><i class="fas fa-envelope"></i> contact@kazay.com</span>
-                    </div>
-                    <div class="socials">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
+                <div class="footer-column">
+                    <h3>关于我们</h3>
+                    <p>KAZAY工作室致力于提供高质量的创意设计和专业技术服务，帮助客户实现他们的创意愿景。</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
                     </div>
+                </div>
+                <div class="footer-column">
+                    <h3>联系我们</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 地址：哈萨克斯坦阿斯塔纳</p>
+                    <p><i class="fas fa-phone"></i> 电话：+7 707 217 37 07</p>
+                    <p><i class="fas fa-envelope"></i> 邮箱：测试邮箱</p>
+                </div>
+                <div class="footer-column">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="/">首页</a></li>
+                        <li><a href="/about">关于我们</a></li>
+                        <li><a href="/services">服务内容</a></li>
+                        <li><a href="/contact">联系我们</a></li>
+                    </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                &copy; <%= new Date().getFullYear() %> KAZAY工作室 | 版权所有
+                <p>&copy; <%= new Date().getFullYear() %> KAZAY工作室 | 版权所有</p>
             </div>
         </div>
     </footer>

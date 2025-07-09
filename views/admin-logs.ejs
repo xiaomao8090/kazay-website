@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>网站日志 - Kazay Studio 管理后台</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/admin.css">
+  <style>
+    .log-container {
+      background-color: #f8f9fa;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 20px;
+      max-height: 600px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 13px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    .log-entry {
+      margin-bottom: 5px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #eee;
+    }
+    .log-error {
+      color: #dc3545;
+    }
+    .log-warning {
+      color: #ffc107;
+    }
+    .log-info {
+      color: #17a2b8;
+    }
+    .log-success {
+      color: #28a745;
+    }
+    .log-timestamp {
+      color: #6c757d;
+      margin-right: 10px;
+    }
+    .log-type {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    .log-filter {
+      margin-bottom: 20px;
+    }
+    .log-filter .form-check {
+      margin-right: 15px;
+    }
+    .log-actions {
+      margin-bottom: 20px;
+    }
+    .tab-content {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <!-- 侧边栏 -->
+    <div class="sidebar">
+      <div class="logo">
+        <img src="/images/logo.png" alt="Kazay Studio Logo">
+        <h2>管理后台</h2>
+      </div>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/dashboard">
+            <i class="bi bi-speedometer2"></i> 控制台
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/pages">
+            <i class="bi bi-file-earmark-text"></i> 页面管理
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/messages">
+            <i class="bi bi-chat-dots"></i> 留言管理
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/admin/logs">
+            <i class="bi bi-journal-text"></i> 网站日志
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/settings">
+            <i class="bi bi-gear"></i> 网站设置
+          </a>
+        </li>
+        <li class="nav-item mt-auto">
+          <a class="nav-link" href="/admin/logout">
+            <i class="bi bi-box-arrow-right"></i> 退出登录
+          </a>
+        </li>
+      </ul>
+    </div>
+    
+    <!-- 主内容 -->
+    <div class="main-content">
+      <header class="d-flex justify-content-between align-items-center mb-4">
+        <h1>网站日志</h1>
+        <div class="user-info">
+          <span>欢迎，<%= username %></span>
+        </div>
+      </header>
+      
+      <!-- 日志类型选择 -->
+      <ul class="nav nav-tabs" id="logTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="normal-tab" data-bs-toggle="tab" data-bs-target="#normal" type="button" role="tab" aria-controls="normal" aria-selected="true">普通日志</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="advanced-tab" data-bs-toggle="tab" data-bs-target="#advanced" type="button" role="tab" aria-controls="advanced" aria-selected="false">高级日志</button>
+        </li>
+      </ul>
+      
+      <div class="tab-content" id="logTabsContent">
+        <!-- 普通日志 -->
+        <div class="tab-pane fade show active" id="normal" role="tabpanel" aria-labelledby="normal-tab">
+          <div class="log-filter d-flex align-items-center">
+            <div class="me-3">
+              <label for="normalLogLevel" class="form-label">日志级别:</label>
+              <select class="form-select" id="normalLogLevel">
+                <option value="all">全部</option>
+                <option value="error">错误</option>
+                <option value="warning">警告</option>
+                <option value="info">信息</option>
+                <option value="success">成功</option>
+              </select>
+            </div>
+            <div class="me-3">
+              <label for="normalLogDate" class="form-label">日期:</label>
+              <select class="form-select" id="normalLogDate">
+                <option value="all">全部</option>
+                <option value="today">今天</option>
+                <option value="yesterday">昨天</option>
+                <option value="last7days">最近7天</option>
+                <option value="last30days">最近30天</option>
+              </select>
+            </div>
+            <div class="me-3">
+              <label for="normalLogSearch" class="form-label">搜索:</label>
+              <input type="text" class="form-control" id="normalLogSearch" placeholder="输入关键词">
+            </div>
+            <div class="mt-4">
+              <button class="btn btn-primary" id="normalLogFilter">筛选</button>
+              <button class="btn btn-secondary ms-2" id="normalLogReset">重置</button>
+            </div>
+          </div>
+          
+          <div class="log-actions">
+            <button class="btn btn-sm btn-outline-secondary" id="normalLogRefresh">刷新</button>
+            <button class="btn btn-sm btn-outline-danger" id="normalLogClear">清空日志</button>
+            <button class="btn btn-sm btn-outline-primary" id="normalLogDownload">下载日志</button>
+          </div>
+          
+          <div class="log-container" id="normalLogContainer">
+            <% if (normalLogs && normalLogs.length > 0) { %>
+              <% normalLogs.forEach(log => { %>
+                <div class="log-entry log-<%= log.type %>">
+                  <span class="log-timestamp">[<%= log.timestamp %>]</span>
+                  <span class="log-type">[<%= log.type.toUpperCase() %>]</span>
+                  <span class="log-message"><%= log.message %></span>
+                </div>
+              <% }); %>
+            <% } else { %>
+              <div class="text-center text-muted">暂无日志记录</div>
+            <% } %>
+          </div>
+          
+          <nav aria-label="日志分页">
+            <ul class="pagination justify-content-center" id="normalLogPagination">
+              <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">上一页</a>
+              </li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#">下一页</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        
+        <!-- 高级日志 -->
+        <div class="tab-pane fade" id="advanced" role="tabpanel" aria-labelledby="advanced-tab">
+          <div class="log-filter d-flex align-items-center">
+            <div class="me-3">
+              <label for="advancedLogType" class="form-label">日志类型:</label>
+              <select class="form-select" id="advancedLogType">
+                <option value="all">全部</option>
+                <option value="system">系统日志</option>
+                <option value="security">安全日志</option>
+                <option value="access">访问日志</option>
+                <option value="error">错误日志</option>
+              </select>
+            </div>
+            <div class="me-3">
+              <label for="advancedLogDate" class="form-label">日期范围:</label>
+              <div class="d-flex">
+                <input type="date" class="form-control" id="advancedLogDateStart">
+                <span class="mx-2 align-self-center">至</span>
+                <input type="date" class="form-control" id="advancedLogDateEnd">
+              </div>
+            </div>
+            <div class="mt-4">
+              <button class="btn btn-primary" id="advancedLogFilter">筛选</button>
+              <button class="btn btn-secondary ms-2" id="advancedLogReset">重置</button>
+            </div>
+          </div>
+          
+          <div class="log-actions">
+            <button class="btn btn-sm btn-outline-secondary" id="advancedLogRefresh">刷新</button>
+            <button class="btn btn-sm btn-outline-danger" id="advancedLogClear">清空日志</button>
+            <button class="btn btn-sm btn-outline-primary" id="advancedLogDownload">下载日志</button>
+            <button class="btn btn-sm btn-outline-info" id="advancedLogAnalyze">分析日志</button>
+          </div>
+          
+          <div class="log-container" id="advancedLogContainer">
+            <% if (advancedLogs && advancedLogs.length > 0) { %>
+              <% advancedLogs.forEach(log => { %>
+                <div class="log-entry log-<%= log.level %>">
+                  <span class="log-timestamp">[<%= log.timestamp %>]</span>
+                  <span class="log-type">[<%= log.type.toUpperCase() %>]</span>
+                  <span class="log-message"><%= log.message %></span>
+                  <% if (log.details) { %>
+                    <div class="log-details mt-1 ms-4 small">
+                      <pre><%= JSON.stringify(log.details, null, 2) %></pre>
+                    </div>
+                  <% } %>
+                </div>
+              <% }); %>
+            <% } else { %>
+              <div class="text-center text-muted">暂无高级日志记录</div>
+            <% } %>
+          </div>
+          
+          <nav aria-label="高级日志分页">
+            <ul class="pagination justify-content-center" id="advancedLogPagination">
+              <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">上一页</a>
+              </li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#">下一页</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 日志分析模态框 -->
+  <div class="modal fade" id="logAnalysisModal" tabindex="-1" aria-labelledby="logAnalysisModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="logAnalysisModalLabel">日志分析</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <h6>日志统计</h6>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="card text-white bg-danger mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title">错误</h5>
+                    <p class="card-text" id="errorCount">0</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card text-dark bg-warning mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title">警告</h5>
+                    <p class="card-text" id="warningCount">0</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card text-white bg-info mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title">信息</h5>
+                    <p class="card-text" id="infoCount">0</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card text-white bg-success mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title">成功</h5>
+                    <p class="card-text" id="successCount">0</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <h6>常见错误</h6>
+            <ul class="list-group" id="commonErrors">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                暂无数据
+              </li>
+            </ul>
+          </div>
+          <div class="mb-3">
+            <h6>访问统计</h6>
+            <div id="accessChart" style="height: 300px;"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" id="downloadAnalysis">下载分析报告</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/jquery-3.6.0.min.js"></script>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // 普通日志筛选
+      $('#normalLogFilter').click(function() {
+        const level = $('#normalLogLevel').val();
+        const date = $('#normalLogDate').val();
+        const search = $('#normalLogSearch').val();
+        
+        // 发送AJAX请求获取筛选后的日志
+        $.ajax({
+          url: '/admin/api/logs/normal',
+          method: 'GET',
+          data: { level, date, search },
+          success: function(response) {
+            if (response.success) {
+              updateNormalLogs(response.logs);
+            } else {
+              alert('获取日志失败: ' + response.message);
+            }
+          },
+          error: function() {
+            alert('获取日志请求失败');
+          }
+        });
+      });
+      
+      // 高级日志筛选
+      $('#advancedLogFilter').click(function() {
+        const type = $('#advancedLogType').val();
+        const startDate = $('#advancedLogDateStart').val();
+        const endDate = $('#advancedLogDateEnd').val();
+        
+        // 发送AJAX请求获取筛选后的日志
+        $.ajax({
+          url: '/admin/api/logs/advanced',
+          method: 'GET',
+          data: { type, startDate, endDate },
+          success: function(response) {
+            if (response.success) {
+              updateAdvancedLogs(response.logs);
+            } else {
+              alert('获取高级日志失败: ' + response.message);
+            }
+          },
+          error: function() {
+            alert('获取高级日志请求失败');
+          }
+        });
+      });
+      
+      // 刷新日志
+      $('#normalLogRefresh').click(function() {
+        refreshNormalLogs();
+      });
+      
+      $('#advancedLogRefresh').click(function() {
+        refreshAdvancedLogs();
+      });
+      
+      // 清空日志
+      $('#normalLogClear').click(function() {
+        if (confirm('确定要清空普通日志吗？此操作不可恢复。')) {
+          $.ajax({
+            url: '/admin/api/logs/normal/clear',
+            method: 'POST',
+            success: function(response) {
+              if (response.success) {
+                $('#normalLogContainer').html('<div class="text-center text-muted">暂无日志记录</div>');
+                alert('普通日志已清空');
+              } else {
+                alert('清空普通日志失败: ' + response.message);
+              }
+            },
+            error: function() {
+              alert('清空普通日志请求失败');
+            }
+          });
+        }
+      });
+      
+      $('#advancedLogClear').click(function() {
+        if (confirm('确定要清空高级日志吗？此操作不可恢复。')) {
+          $.ajax({
+            url: '/admin/api/logs/advanced/clear',
+            method: 'POST',
+            success: function(response) {
+              if (response.success) {
+                $('#advancedLogContainer').html('<div class="text-center text-muted">暂无高级日志记录</div>');
+                alert('高级日志已清空');
+              } else {
+                alert('清空高级日志失败: ' + response.message);
+              }
+            },
+            error: function() {
+              alert('清空高级日志请求失败');
+            }
+          });
+        }
+      });
+      
+      // 下载日志
+      $('#normalLogDownload').click(function() {
+        window.location.href = '/admin/api/logs/normal/download';
+      });
+      
+      $('#advancedLogDownload').click(function() {
+        window.location.href = '/admin/api/logs/advanced/download';
+      });
+      
+      // 分析日志
+      $('#advancedLogAnalyze').click(function() {
+        $.ajax({
+          url: '/admin/api/logs/analyze',
+          method: 'GET',
+          success: function(response) {
+            if (response.success) {
+              // 更新分析数据
+              $('#errorCount').text(response.data.counts.error || 0);
+              $('#warningCount').text(response.data.counts.warning || 0);
+              $('#infoCount').text(response.data.counts.info || 0);
+              $('#successCount').text(response.data.counts.success || 0);
+              
+              // 更新常见错误
+              const $commonErrors = $('#commonErrors');
+              $commonErrors.empty();
+              
+              if (response.data.commonErrors && response.data.commonErrors.length > 0) {
+                response.data.commonErrors.forEach(error => {
+                  $commonErrors.append(`
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      ${error.message}
+                      <span class="badge bg-primary rounded-pill">${error.count}</span>
+                    </li>
+                  `);
+                });
+              } else {
+                $commonErrors.append('<li class="list-group-item">暂无常见错误数据</li>');
+              }
+              
+              // 显示模态框
+              $('#logAnalysisModal').modal('show');
+            } else {
+              alert('分析日志失败: ' + response.message);
+            }
+          },
+          error: function() {
+            alert('分析日志请求失败');
+          }
+        });
+      });
+      
+      // 重置筛选
+      $('#normalLogReset').click(function() {
+        $('#normalLogLevel').val('all');
+        $('#normalLogDate').val('all');
+        $('#normalLogSearch').val('');
+        refreshNormalLogs();
+      });
+      
+      $('#advancedLogReset').click(function() {
+        $('#advancedLogType').val('all');
+        $('#advancedLogDateStart').val('');
+        $('#advancedLogDateEnd').val('');
+        refreshAdvancedLogs();
+      });
+      
+      // 下载分析报告
+      $('#downloadAnalysis').click(function() {
+        window.location.href = '/admin/api/logs/analysis/download';
+      });
+      
+      // 初始化日期选择器
+      const today = new Date();
+      $('#advancedLogDateEnd').val(formatDate(today));
+      
+      const lastMonth = new Date();
+      lastMonth.setMonth(lastMonth.getMonth() - 1);
+      $('#advancedLogDateStart').val(formatDate(lastMonth));
+      
+      // 辅助函数
+      function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+      
+      function refreshNormalLogs() {
+        $.ajax({
+          url: '/admin/api/logs/normal',
+          method: 'GET',
+          success: function(response) {
+            if (response.success) {
+              updateNormalLogs(response.logs);
+            } else {
+              alert('刷新普通日志失败: ' + response.message);
+            }
+          },
+          error: function() {
+            alert('刷新普通日志请求失败');
+          }
+        });
+      }
+      
+      function refreshAdvancedLogs() {
+        $.ajax({
+          url: '/admin/api/logs/advanced',
+          method: 'GET',
+          success: function(response) {
+            if (response.success) {
+              updateAdvancedLogs(response.logs);
+            } else {
+              alert('刷新高级日志失败: ' + response.message);
+            }
+          },
+          error: function() {
+            alert('刷新高级日志请求失败');
+          }
+        });
+      }
+      
+      function updateNormalLogs(logs) {
+        const $container = $('#normalLogContainer');
+        $container.empty();
+        
+        if (logs && logs.length > 0) {
+          logs.forEach(log => {
+            $container.append(`
+              <div class="log-entry log-${log.type}">
+                <span class="log-timestamp">[${log.timestamp}]</span>
+                <span class="log-type">[${log.type.toUpperCase()}]</span>
+                <span class="log-message">${log.message}</span>
+              </div>
+            `);
+          });
+        } else {
+          $container.html('<div class="text-center text-muted">暂无日志记录</div>');
+        }
+      }
+      
+      function updateAdvancedLogs(logs) {
+        const $container = $('#advancedLogContainer');
+        $container.empty();
+        
+        if (logs && logs.length > 0) {
+          logs.forEach(log => {
+            let detailsHtml = '';
+            if (log.details) {
+              detailsHtml = `
+                <div class="log-details mt-1 ms-4 small">
+                  <pre>${JSON.stringify(log.details, null, 2)}</pre>
+                </div>
+              `;
+            }
+            
+            $container.append(`
+              <div class="log-entry log-${log.level}">
+                <span class="log-timestamp">[${log.timestamp}]</span>
+                <span class="log-type">[${log.type.toUpperCase()}]</span>
+                <span class="log-message">${log.message}</span>
+                ${detailsHtml}
+              </div>
+            `);
+          });
+        } else {
+          $container.html('<div class="text-center text-muted">暂无高级日志记录</div>');
+        }
+      }
+    });
+  </script>
+</body>
+</html> 

@@ -7,82 +7,89 @@
 </section>
 
 <!-- 联系信息和表单 -->
-<section class="contact-main">
+<section class="contact-section">
     <div class="container">
-        <div class="contact-content">
+        <% if (typeof success !== 'undefined' && success) { %>
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i>
+                <p>您的信息已成功提交，我们会尽快与您联系！</p>
+            </div>
+        <% } %>
+        
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i>
+                <p>提交失败，请稍后再试或直接通过电话联系我们。</p>
+            </div>
+        <% } %>
+        
+        <div class="contact-grid">
             <!-- 联系信息 -->
             <div class="contact-info">
-                <h2>联系方式</h2>
+                <h3>联系方式</h3>
                 <p>无论您有任何问题、建议或项目需求，我们都期待与您交流。请通过以下方式联系我们，我们将尽快回复您。</p>
                 
-                <div class="info-item">
-                    <div class="icon">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <div class="details">
-                        <h3>地址</h3>
-                        <p>中国上海市浦东新区张江高科技园区科苑路88号</p>
+                <div class="contact-detail">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div class="detail-content">
+                        <h4>地址</h4>
+                        <p>哈萨克斯坦阿斯塔纳</p>
                     </div>
                 </div>
                 
-                <div class="info-item">
-                    <div class="icon">
-                        <i class="fas fa-phone"></i>
-                    </div>
-                    <div class="details">
-                        <h3>电话</h3>
-                        <p>+86 123 4567 8901</p>
+                <div class="contact-detail">
+                    <i class="fas fa-phone"></i>
+                    <div class="detail-content">
+                        <h4>电话</h4>
+                        <p>+7 707 217 37 07</p>
                     </div>
                 </div>
                 
-                <div class="info-item">
-                    <div class="icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <div class="details">
-                        <h3>邮箱</h3>
-                        <p>contact@kazay.com</p>
+                <div class="contact-detail">
+                    <i class="fas fa-envelope"></i>
+                    <div class="detail-content">
+                        <h4>邮箱</h4>
+                        <p>xiaomao8090@gmail.com</p>
                     </div>
                 </div>
                 
-                <div class="info-item">
-                    <div class="icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="details">
-                        <h3>工作时间</h3>
-                        <p>周一至周五: 9:00 - 18:00</p>
-                        <p>周末: 休息</p>
+                <div class="contact-detail">
+                    <i class="fas fa-clock"></i>
+                    <div class="detail-content">
+                        <h4>工作时间</h4>
+                        <p>24小时</p>
                     </div>
                 </div>
                 
                 <div class="social-links">
-                    <h3>关注我们</h3>
-                    <div class="links">
-                        <a href="#"><i class="fab fa-weixin"></i></a>
-                        <a href="#"><i class="fab fa-weibo"></i></a>
-                        <a href="#"><i class="fab fa-qq"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
+                    <h4>关注我们</h4>
+                    <a href="#"><i class="fab fa-weixin"></i></a>
+                    <a href="#"><i class="fab fa-weibo"></i></a>
+                    <a href="#"><i class="fab fa-qq"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
             
             <!-- 联系表单 -->
             <div class="contact-form">
-                <h2>发送信息</h2>
+                <h3>发送信息</h3>
                 <form id="contactForm" action="/contact" method="POST">
                     <div class="form-group">
-                        <input type="text" name="name" id="name" placeholder="您的姓名" required>
+                        <label for="name">您的姓名</label>
+                        <input type="text" name="name" id="name" class="form-control" placeholder="请输入您的姓名" required>
                     </div>
                     <div class="form-group">
-                        <input type="email" name="email" id="email" placeholder="您的邮箱" required>
+                        <label for="email">电子邮箱</label>
+                        <input type="email" name="email" id="email" class="form-control" placeholder="请输入您的邮箱" required>
                     </div>
                     <div class="form-group">
-                        <input type="tel" name="phone" id="phone" placeholder="您的电话">
+                        <label for="phone">联系电话</label>
+                        <input type="tel" name="phone" id="phone" class="form-control" placeholder="请输入您的电话">
                     </div>
                     <div class="form-group">
-                        <select name="subject" id="subject">
+                        <label for="subject">咨询主题</label>
+                        <select name="subject" id="subject" class="form-control">
                             <option value="">-- 请选择咨询主题 --</option>
                             <option value="品牌设计">品牌设计</option>
                             <option value="网站开发">网站开发</option>
@@ -93,10 +100,11 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <textarea name="message" id="message" placeholder="请详细描述您的需求..." rows="6" required></textarea>
+                        <label for="message">您的需求</label>
+                        <textarea name="message" id="message" class="form-control" placeholder="请详细描述您的需求..." rows="6" required></textarea>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn">发送信息</button>
+                        <button type="submit" class="submit-btn">发送信息</button>
                     </div>
                 </form>
             </div>
@@ -104,26 +112,15 @@
     </div>
 </section>
 
-<!-- 地图区域 -->
-<section class="map-section">
-    <div class="map-container">
-        <!-- 实际项目中可替换为真实的地图嵌入代码 -->
-        <div class="map-placeholder">
-            <i class="fas fa-map-marked-alt"></i>
-            <p>此处将显示公司地址的地图</p>
-        </div>
-    </div>
-</section>
-
-<!-- 常见问题 -->
-<section class="faq">
+<!-- FAQ部分 -->
+<section class="faq-section">
     <div class="container">
         <div class="section-header">
             <h2>常见问题</h2>
             <p>我们收集了一些客户经常提问的问题</p>
         </div>
         
-        <div class="faq-list">
+        <div class="faq-container">
             <div class="faq-item">
                 <div class="faq-question">
                     <h3>项目周期一般是多久？</h3>
@@ -166,3 +163,102 @@
         </div>
     </div>
 </section>
+
+<!-- 联系我们快捷入口 -->
+<section class="cta">
+    <div class="container">
+        <div class="cta-content">
+            <h2>准备好开始您的项目了吗？</h2>
+            <p>联系我们，让您的想法成为现实。</p>
+            <a href="#contactForm" class="btn">立即联系</a>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ交互脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+        const icon = item.querySelector('.toggle-icon i');
+        
+        question.addEventListener('click', () => {
+            item.classList.toggle('active');
+            if (item.classList.contains('active')) {
+                answer.style.display = 'block';
+                icon.classList.remove('fa-plus');
+                icon.classList.add('fa-minus');
+            } else {
+                answer.style.display = 'none';
+                icon.classList.remove('fa-minus');
+                icon.classList.add('fa-plus');
+            }
+        });
+    });
+    
+    // 自动滚动到提示消息
+    const alertMessage = document.querySelector('.alert');
+    if (alertMessage) {
+        alertMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // 5秒后自动隐藏提示
+        setTimeout(() => {
+            alertMessage.style.opacity = '0';
+            setTimeout(() => {
+                alertMessage.style.display = 'none';
+            }, 500);
+        }, 5000);
+    }
+});
+</script>
+
+<style>
+/* 提示消息样式 */
+.alert {
+    padding: 15px 20px;
+    margin-bottom: 30px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    transition: opacity 0.5s ease;
+}
+
+.alert i {
+    font-size: 24px;
+    margin-right: 15px;
+}
+
+.alert p {
+    margin: 0;
+    font-size: 16px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-left: 5px solid #28a745;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-left: 5px solid #dc3545;
+}
+
+/* 表单提交按钮悬停效果 */
+.submit-btn {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.submit-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+</style>

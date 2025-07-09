@@ -1,0 +1,18 @@
+{
+  "totalVisits": 19,
+  "uniqueIPs": {
+    "::1": {
+      "firstVisit": "2025-07-09T19:39:01.675Z",
+      "visits": 19,
+      "lastVisit": "2025-07-09T21:10:20.186Z"
+    }
+  },
+  "dailyStats": {
+    "2025-07-09": {
+      "totalVisits": 19,
+      "uniqueIPs": {
+        "::1": true
+      }
+    }
+  }
+}
