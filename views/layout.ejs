@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kazay工作室 - <%= typeof title !== 'undefined' ? title : '官网' %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- 引入字体图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="stars-container">
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        <div id="stars3"></div>
+    </div>
+
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>KAZAY<span>工作室</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/about">关于我们</a></li>
+                    <li><a href="/services">服务内容</a></li>
+                    <li><a href="/contact">联系我们</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <%- body %>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section about">
+                    <h2>KAZAY工作室</h2>
+                    <p>我们致力于提供高质量的创意和专业服务。</p>
+                    <div class="contact">
+                        <span><i class="fas fa-phone"></i> +86 123 4567 8901</span>
+                        <span><i class="fas fa-envelope"></i> contact@kazay.com</span>
+                    </div>
+                    <div class="socials">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; <%= new Date().getFullYear() %> KAZAY工作室 | 版权所有
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html> 

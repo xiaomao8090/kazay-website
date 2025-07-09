@@ -1,0 +1,168 @@
+<!-- 联系我们页面标题区 -->
+<section class="page-header">
+    <div class="container">
+        <h1>联系我们</h1>
+        <p>有任何问题或项目需求，欢迎随时联系我们</p>
+    </div>
+</section>
+
+<!-- 联系信息和表单 -->
+<section class="contact-main">
+    <div class="container">
+        <div class="contact-content">
+            <!-- 联系信息 -->
+            <div class="contact-info">
+                <h2>联系方式</h2>
+                <p>无论您有任何问题、建议或项目需求，我们都期待与您交流。请通过以下方式联系我们，我们将尽快回复您。</p>
+                
+                <div class="info-item">
+                    <div class="icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="details">
+                        <h3>地址</h3>
+                        <p>中国上海市浦东新区张江高科技园区科苑路88号</p>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="details">
+                        <h3>电话</h3>
+                        <p>+86 123 4567 8901</p>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="details">
+                        <h3>邮箱</h3>
+                        <p>contact@kazay.com</p>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="details">
+                        <h3>工作时间</h3>
+                        <p>周一至周五: 9:00 - 18:00</p>
+                        <p>周末: 休息</p>
+                    </div>
+                </div>
+                
+                <div class="social-links">
+                    <h3>关注我们</h3>
+                    <div class="links">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 联系表单 -->
+            <div class="contact-form">
+                <h2>发送信息</h2>
+                <form id="contactForm" action="/contact" method="POST">
+                    <div class="form-group">
+                        <input type="text" name="name" id="name" placeholder="您的姓名" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" id="email" placeholder="您的邮箱" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" name="phone" id="phone" placeholder="您的电话">
+                    </div>
+                    <div class="form-group">
+                        <select name="subject" id="subject">
+                            <option value="">-- 请选择咨询主题 --</option>
+                            <option value="品牌设计">品牌设计</option>
+                            <option value="网站开发">网站开发</option>
+                            <option value="移动应用">移动应用</option>
+                            <option value="UI/UX设计">UI/UX设计</option>
+                            <option value="数字营销">数字营销</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" id="message" placeholder="请详细描述您的需求..." rows="6" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn">发送信息</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 地图区域 -->
+<section class="map-section">
+    <div class="map-container">
+        <!-- 实际项目中可替换为真实的地图嵌入代码 -->
+        <div class="map-placeholder">
+            <i class="fas fa-map-marked-alt"></i>
+            <p>此处将显示公司地址的地图</p>
+        </div>
+    </div>
+</section>
+
+<!-- 常见问题 -->
+<section class="faq">
+    <div class="container">
+        <div class="section-header">
+            <h2>常见问题</h2>
+            <p>我们收集了一些客户经常提问的问题</p>
+        </div>
+        
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>项目周期一般是多久？</h3>
+                    <span class="toggle-icon"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>项目周期取决于项目的复杂度和规模。一般来说，小型项目可能需要2-4周，中型项目4-8周，大型项目可能需要3个月或更长时间。在项目启动前，我们会根据您的具体需求提供详细的时间计划。</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>你们的收费标准是什么？</h3>
+                    <span class="toggle-icon"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>我们的收费根据项目类型、复杂度和所需工时来确定。我们提供基础、专业和企业三种价格方案，同时也支持根据客户需求定制服务包。欢迎联系我们获取详细报价。</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>你们是否提供维护服务？</h3>
+                    <span class="toggle-icon"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>是的，我们提供项目交付后的维护服务。根据不同的方案，我们会提供1-6个月不等的免费维护期。维护期过后，您可以选择继续签订维护合同或按需付费维护。</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>如何开始一个项目合作？</h3>
+                    <span class="toggle-icon"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>开始一个项目很简单，您可以通过本页面的联系表单、电话或电子邮件联系我们。我们会安排初步沟通，了解您的需求，然后提供项目方案和报价。双方确认后签订合同，即可开始项目。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
